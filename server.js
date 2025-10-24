@@ -31,26 +31,30 @@ app.post("/sendNotification", async (req, res) => {
     const messageObj = {
       token: targetToken,
       notification: {
-        title,
+        title: title,
         body: message,
+      },
+      data: {
+        click_action: "OPEN_ACTIVITY", // custom action for your Java code
+        screen: "SplashActivity" // example key
       },
       android: {
         priority: "high",
+        notification: {
+          channelId: "default_channel", 
+          sound: "default",
+        },
       },
     };
 
     const response = await admin.messaging().send(messageObj);
-    console.log("✅ Notification sent:", response);
+    console.log("✅ Sent:", response);
     res.status(200).json({ success: true, response });
   } catch (error) {
-    console.error("❌ Error sending notification:", error);
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      details: error.stack, // helpful for debugging
-    });
+    console.error("❌ Error:", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
+app.listen(port, () => console.log(`🚀 Server running on ${port}`));
