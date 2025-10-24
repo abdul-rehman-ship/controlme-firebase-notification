@@ -29,23 +29,12 @@ app.post("/sendNotification", async (req, res) => {
     }
 
     const messageObj = {
-      token: targetToken,
-      notification: {
-        title: title,
-        body: message,
-      },
       data: {
-        click_action: "OPEN_ACTIVITY", // custom action for your Java code
-        screen: "SplashActivity" // example key
+        title,
+        message
       },
-      android: {
-        priority: "high",
-        notification: {
-          channelId: "default_channel", 
-          sound: "default",
-        },
-      },
-    };
+      to: targetToken
+    }
 
     const response = await admin.messaging().send(messageObj);
     console.log("✅ Sent:", response);
