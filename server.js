@@ -30,11 +30,14 @@ app.post("/sendNotification", async (req, res) => {
 
     const messageObj = {
       token: targetToken,
-      data: {
+      notification: {
         title: title,
         body: message,
       },
-     
+      data: {
+        click_action: "OPEN_ACTIVITY", // custom action for your Java code
+        screen: "SplashActivity" // example key
+      },
       android: {
         priority: "high",
         notification: {
