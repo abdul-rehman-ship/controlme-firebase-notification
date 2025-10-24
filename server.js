@@ -29,12 +29,18 @@ app.post("/sendNotification", async (req, res) => {
     }
 
     const messageObj = {
-      "data": {
-        title,
-        message
+      to: targetToken,
+   
+      data: {
+         title: title,
+        body: message,
+     
       },
-      "to": targetToken
-    }
+      android: {
+        priority: "high"
+      
+      },
+    };
 
     const response = await admin.messaging().send(messageObj);
     console.log("✅ Sent:", response);
