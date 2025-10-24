@@ -2,7 +2,6 @@ const admin = require("firebase-admin");
 const express = require("express");
 require("dotenv").config();
 
-// Firebase Admin Init
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
@@ -14,12 +13,10 @@ admin.initializeApp({
 const app = express();
 app.use(express.json());
 
-// Test endpoint
 app.get("/", (req, res) => {
-  res.send("✅ FCM Server for Android (Java) is running");
+  res.send("✅ FCM Server for Android (Java) is running on Vercel!");
 });
 
-// Send notification
 app.post("/sendNotification", async (req, res) => {
   try {
     const { targetToken, title, message } = req.body;
@@ -30,18 +27,14 @@ app.post("/sendNotification", async (req, res) => {
 
     const messageObj = {
       token: targetToken,
-      notification: {
-        title: title,
-        body: message,
-      },
       data: {
-        click_action: "OPEN_ACTIVITY", // custom action for your Java code
-        screen: "SplashActivity" // example key
+        title,
+        body: message,
       },
       android: {
         priority: "high",
         notification: {
-          channelId: "default_channel", 
+          channelId: "default_channel",
           sound: "default",
         },
       },
@@ -56,5 +49,4 @@ app.post("/sendNotification", async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`🚀 Server running on ${port}`));
+module.exports = app;
