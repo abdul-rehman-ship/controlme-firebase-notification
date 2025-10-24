@@ -29,11 +29,11 @@ app.post("/sendNotification", async (req, res) => {
     }
 
     const messageObj = {
-      data: {
+      "data": {
         title,
         message
       },
-      to: targetToken
+      "to": targetToken
     }
 
     const response = await admin.messaging().send(messageObj);
