@@ -30,26 +30,27 @@ app.post("/sendNotification", async (req, res) => {
 
     const messageObj = {
       token: targetToken,
-   
-      data: {
-         title: title,
+      notification: {
+        title,
         body: message,
-     
       },
       android: {
-        priority: "high"
-      
+        priority: "high",
       },
     };
 
     const response = await admin.messaging().send(messageObj);
-    console.log("✅ Sent:", response);
+    console.log("✅ Notification sent:", response);
     res.status(200).json({ success: true, response });
   } catch (error) {
-    console.error("❌ Error:", error);
-    res.status(500).json({ success: false, error: error.message });
+    console.error("❌ Error sending notification:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      details: error.stack, // helpful for debugging
+    });
   }
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`🚀 Server running on ${port}`));
+app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
