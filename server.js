@@ -29,7 +29,7 @@ app.post("/sendNotification", async (req, res) => {
     }
 
     const messageObj = {
-      to: targetToken,
+      token: targetToken,
    
       data: {
          title: title,
