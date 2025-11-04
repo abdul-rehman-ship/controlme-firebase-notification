@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 // Send notification
 app.post("/sendNotification", async (req, res) => {
   try {
-    const { targetToken, title, message } = req.body;
+    const { targetToken, title, message, orderId } = req.body;
 
     if (!targetToken || !title || !message) {
       return res.status(400).send("❌ Missing token, title, or message");
@@ -36,7 +36,8 @@ app.post("/sendNotification", async (req, res) => {
       },
       data: {
         click_action: "OPEN_ACTIVITY", // custom action for your Java code
-        screen: "SplashActivity" // example key
+        screen: "SplashActivity", // example key
+        orderId: orderId || "" // Add orderId to data payload
       },
       android: {
         priority: "high",
